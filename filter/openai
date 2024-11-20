@@ -1,0 +1,11 @@
+//HOST
+//HOST-SUFFIX
+//HOST-WILDCARD
+//HOST-KEYWORD
+//USER-AGENT
+//IP-CIDR
+
+HOST,ab.chatgpt.com,OpenAI
+HOST,ios.chat.openai.com,OpenAI
+HOST,browser-intake-datadoghq.com,OpenAI
+HOST,o33249.ingest.us.sentry.io,OpenAI
