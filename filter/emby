@@ -1,0 +1,11 @@
+//HOST
+//HOST-SUFFIX
+//HOST-WILDCARD
+//HOST-KEYWORD
+//USER-AGENT
+//IP-CIDR
+
+HOST,dpxcf.niceduck.lol,Emby媒体
+HOST,vi.niceduck.lol,Emby媒体
+HOST,cf.niceduck.lol,Emby媒体
+HOST,loacl.emby.moe,Emby媒体
