@@ -1,0 +1,4 @@
+hostname = *.spotify.com
+
+^https?:\/\/spclient\.wg\.spotify\.com\/bootstrap\/v1\/bootstrap url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/spotify.js
+^https?:\/\/spclient\.wg\.spotify\.com\/user-customization-service\/v1\/customize url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/spotify.js
