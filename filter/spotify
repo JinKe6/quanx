@@ -1,0 +1,13 @@
+//HOST
+//HOST-SUFFIX
+//HOST-WILDCARD
+//HOST-KEYWORD
+//USER-AGENT
+//IP-CIDR
+
+HOST-SUFFIX,scorecardresearch.com,Spotify
+HOST-SUFFIX,spotify.com,Spotify
+HOST-SUFFIX,scdn.co,Spotify
+HOST-SUFFIX,branch.io,Spotify
+HOST-SUFFIX,spotifycdn.com,Spotify
+HOST-SUFFIX,akamaized.net,DIRECT
