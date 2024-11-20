@@ -1,0 +1,8 @@
+hostname = *.coolapk.com
+
+^https?:\/\/api\.coolapk\.com\/v6\/main\/init url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/coolapk.js
+^https?:\/\/api\.coolapk\.com\/v6\/main\/indexV8 url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/coolapk.js
+^https?:\/\/api\.coolapk\.com\/v6\/search url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/coolapk.js
+^https?:\/\/api\.coolapk\.com\/v6\/page url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/coolapk.js
+^https?:\/\/api\.coolapk\.com\/v6\/feed url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/coolapk.js
+^https?:\/\/api\.coolapk\.com\/v6\/account\/loadConfig url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/coolapk.js
