@@ -1,6 +1,6 @@
 hostname = *.bilibili.com
 
-^https?:\/\/(app|api)\.bilibili\.com\/x\/(v2\/splash\/show|vip\/ads\/materials) url reject-200
+^https?:\/\/(app|api)\.bilibili\.com\/x\/(v2\/splash\/show|vip\/ads\/materials) url reject
 ^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/bilibili.js
 ^https?:\/\/app\.bilibili\.com\/x\/v2\/feed url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/bilibili.js
 ^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab url script-response-body https://github.com/JinKe6/quanx/raw/refs/heads/main/scripts/bilibili.js
