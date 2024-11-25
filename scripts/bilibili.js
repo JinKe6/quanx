@@ -1,16 +1,9 @@
 const url = $request.url;
 const body = $response.body;
 
-let obj;
-try {
-    obj = JSON.parse(body);
-} catch (e) {
-    $done({});
-    return;
-}
-
-// 开屏广告修改
+// 处理开屏广告
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && obj.data.list) {
         obj.data.list.forEach(item => {
             item.duration = 0;
@@ -19,11 +12,11 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list/.test(url)) {
         });
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
-// Tab自定义
+// 修改主界面 Tab
 if (/^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data) {
         obj.data.tab = [
             { id: 40, name: "推荐", uri: "bilibili://pegasus/promo", tab_id: "推荐tab", pos: 2, default_selected: 1 },
@@ -37,21 +30,17 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab/.test(url)) {
             { id: 481, icon: "http://i0.hdslb.com/bfs/archive/d43047538e72c9ed8fd8e4e34415fbe3a4f632cb.png", name: "消息", uri: "bilibili://link/im_home", tab_id: "消息Top", pos: 1 }
         ];
 
+        const excludedBottomIDs = new Set([103, 105, 107, 108]);
         if (obj.data.bottom) {
-            obj.data.bottom = obj.data.bottom.filter(item =>
-                item.id !== 103 &&
-                item.id !== 105 &&
-                item.id !== 107 &&
-                item.id !== 108
-            );
+            obj.data.bottom = obj.data.bottom.filter(item => !excludedBottomIDs.has(item.id));
         }
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
-// 推荐去广告
+// 过滤首页 Feed 流广告
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/feed/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && obj.data.items) {
         obj.data.items = obj.data.items.filter(item =>
             !item.banner_item &&
@@ -60,35 +49,30 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/feed/.test(url)) {
         );
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
-// 番剧与影视Tab精简
+// 过滤番剧与影视页面横幅
 if (/^https?:\/\/api\.bilibili\.com\/pgc\/page\/(cinema|bangumi)/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.result && obj.result.modules) {
-        obj.result.modules = obj.result.modules.filter(module =>
-            module.module_id !== 1441 &&
-            module.module_id !== 248 &&
-            module.module_id !== 1455 &&
-            module.module_id !== 1633 &&
-            module.module_id !== 1639
-        );
+        const excludedModuleIDs = new Set([1441, 248, 1455, 1633, 1639]);
+        obj.result.modules = obj.result.modules.filter(module => !excludedModuleIDs.has(module.module_id));
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
-// 直播Tab精简
+// 过滤直播页横幅
 if (/^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-interface\/v2\/index\/feed/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && obj.data.card_list) {
         obj.data.card_list = obj.data.card_list.filter(card => card.card_type !== "banner_v1");
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
-// iPad我的页面精简
+// 修改 iPad 我的页面
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine\/ipad/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data) {
         if (obj.data['ipad_more_sections']) {
             obj.data['ipad_more_sections'] = obj.data['ipad_more_sections'].filter(section =>
@@ -99,34 +83,22 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine\/ipad/.test(url)) {
         delete obj.data['ipad_upper_sections'];
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
-// iPhone我的页面精简
+// 修改 iPhone 我的页面
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?!\/ipad)/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data) {
-        obj.data.sections_v2 = obj.data.sections_v2.filter(section =>
-            section.title !== '推荐服务' &&
-            section.title !== '创作中心' &&
-            section.title !== '其他服务'
-        );
+        const excludedSectionTitles = new Set(['推荐服务', '创作中心', '其他服务']);
+        obj.data.sections_v2 = obj.data.sections_v2.filter(section => !excludedSectionTitles.has(section.title));
 
+        const excludedItemIDs = new Set([171, 172, 173, 174, 429, 430, 431, 432, 950]);
         obj.data.sections_v2.forEach(section => {
-            section.items = section.items.filter(item =>
-                item.id !== 171 &&
-                item.id !== 172 &&
-                item.id !== 173 &&
-                item.id !== 174 &&
-                item.id !== 429 &&
-                item.id !== 430 &&
-                item.id !== 431 &&
-                item.id !== 432 &&
-                item.id !== 950
-            );
+            section.items = section.items.filter(item => !excludedItemIDs.has(item.id));
         });
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
+// 默认结束
 $done({});
