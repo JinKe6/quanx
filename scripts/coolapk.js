@@ -1,17 +1,14 @@
-async () => {
-    // 获取请求的 URL
     const url = $request.url;
-    // 获取响应的 body 内容
     const body = $response.body;
-    // 定义一个变量 obj，用于存储解析后的 JSON 数据
-    let obj = null;
-    try { obj = JSON.parse(body);
+
+    let obj;
+    try {
+        obj = JSON.parse(body);
     } catch (e) {
         $done({});
-        return; // 提前退出异步操作，避免后续代码报错
+        return;
     }
-    
-    // 开屏广告和过滤出保留Tab处理
+
     if (/^https?:\/\/api\.coolapk\.com\/v6\/main\/init/.test(url)) {
         if (obj.data && Array.isArray(obj.data)) {
             obj.data.forEach(item => {
@@ -35,7 +32,6 @@ async () => {
         return;
     }
 
-    // 首页精简
     if (/^https?:\/\/api\.coolapk\.com\/v6\/main\/indexV8/.test(url)) {
         if (obj.data && Array.isArray(obj.data)) {
             obj.data = obj.data.filter(item =>
@@ -51,7 +47,6 @@ async () => {
         return;
     }
 
-    // 搜索栏精简
     if (/^https?:\/\/api\.coolapk\.com\/v6\/search/.test(url)) {
         if (obj.data && Array.isArray(obj.data)) {
             obj.data = obj.data.filter(item =>
@@ -63,7 +58,6 @@ async () => {
         return;
     }
 
-    // 评论区去广告
     if (/^https?:\/\/api\.coolapk\.com\/v6\/page/.test(url)) {
         if (obj.data && Array.isArray(obj.data)) {
             obj.data = obj.data.filter(item =>
@@ -84,7 +78,6 @@ async () => {
         return;
     }
 
-    // 信息流去广告
     if (/^https?:\/\/api\.coolapk\.com\/v6\/feed/.test(url)) {
         if (obj.data && Array.isArray(obj.data)) {
             obj.data.forEach(item => {
@@ -96,7 +89,6 @@ async () => {
         return;
     }
 
-    // 账户页面精简
     if (/^https?:\/\/api\.coolapk\.com\/v6\/account\/loadConfig/.test(url)) {
         if (obj.data && Array.isArray(obj.data)) {
             obj.data = obj.data.filter(item =>
@@ -110,6 +102,4 @@ async () => {
         return;
     }
 
-    // 如果没有匹配到任何规则，直接返回原始响应
     $done({});
-})();
