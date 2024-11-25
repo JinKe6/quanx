@@ -5,9 +5,7 @@
     const body = $response.body;
     // 定义一个变量 obj，用于存储解析后的 JSON 数据
     let obj = null;
-    try {
-        // 尝试将响应 body 转换为 JSON 对象
-        obj = JSON.parse(body);
+    try { obj = JSON.parse(body);
     } catch (e) {
         $done({});
         return; // 提前退出异步操作，避免后续代码报错
