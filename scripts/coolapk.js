@@ -1,16 +1,9 @@
 const url = $request.url;
 const body = $response.body;
 
-let obj;
-try {
-    obj = JSON.parse(body);
-} catch (e) {
-    $done({});
-    return;
-}
-
 // 开屏广告和过滤出保留Tab处理
 if (/^https?:\/\/api\.coolapk\.com\/v6\/main\/init/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(item => {
             if (item.extraDataArr) {
@@ -18,72 +11,55 @@ if (/^https?:\/\/api\.coolapk\.com\/v6\/main\/init/.test(url)) {
                 item.extraDataArr["SplashAd.Expires"] = 9999999999;
             }
             if (item.entities && Array.isArray(item.entities)) {
+                const allowedEntityIds = new Set([420, 1635, 415, 2261, 1190, 1175]);
                 item.entities = item.entities.filter(entity =>
-                    entity.entityId === 420 ||
-                    entity.entityId === 1635 ||
-                    entity.entityId === 415 ||
-                    entity.entityId === 2261 ||
-                    entity.entityId === 1190 ||
-                    entity.entityId === 1175
+                    allowedEntityIds.has(entity.entityId)
                 );
             }
         });
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
 // 首页精简
 if (/^https?:\/\/api\.coolapk\.com\/v6\/main\/indexV8/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && Array.isArray(obj.data)) {
-        obj.data = obj.data.filter(item =>
-            item.entityId !== 32557 &&
-            item.entityId !== 13635 &&
-            item.entityId !== 29349
-        );
+        const excludedEntityIds = new Set([32557, 13635, 29349]);
+        obj.data = obj.data.filter(item => !excludedEntityIds.has(item.entityId));
         obj.data.forEach(item => {
             delete item.extraDataArr;
         });
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
 // 搜索栏精简
 if (/^https?:\/\/api\.coolapk\.com\/v6\/search/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && Array.isArray(obj.data)) {
-        obj.data = obj.data.filter(item =>
-            item.entityId !== 20252 &&
-            item.entityId !== 16977
-        );
+        const excludedEntityIds = new Set([20252, 16977]);
+        obj.data = obj.data.filter(item => !excludedEntityIds.has(item.entityId));
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
 // 评论区去广告
 if (/^https?:\/\/api\.coolapk\.com\/v6\/page/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && Array.isArray(obj.data)) {
-        obj.data = obj.data.filter(item =>
-            item.entityId !== 12315 &&
-            item.entityId !== 8364 &&
-            item.entityId !== 14379 &&
-            item.entityId !== 24309 &&
-            item.entityId !== 35846 &&
-            item.entityId !== 35730 &&
-            item.entityId !== 12889 &&
-            item.entityId !== 20099
-        );
+        const excludedEntityIds = new Set([12315, 8364, 14379, 24309, 35846, 35730, 12889, 20099]);
+        obj.data = obj.data.filter(item => !excludedEntityIds.has(item.entityId));
         obj.data.forEach(item => {
             delete item.extraDataArr;
         });
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
 // 信息流去广告
 if (/^https?:\/\/api\.coolapk\.com\/v6\/feed/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && Array.isArray(obj.data)) {
         obj.data.forEach(item => {
             delete item.extraDataArr;
@@ -91,21 +67,17 @@ if (/^https?:\/\/api\.coolapk\.com\/v6\/feed/.test(url)) {
         });
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
 // 账户页面精简
 if (/^https?:\/\/api\.coolapk\.com\/v6\/account\/loadConfig/.test(url)) {
+    let obj = JSON.parse(body);
     if (obj.data && Array.isArray(obj.data)) {
-        obj.data = obj.data.filter(item =>
-            item.entityId !== 1002 &&
-            item.entityId !== 1005 &&
-            item.entityId !== 14809 &&
-            item.entityId !== 1004
-        );
+        const excludedEntityIds = new Set([1002, 1005, 14809, 1004]);
+        obj.data = obj.data.filter(item => !excludedEntityIds.has(item.entityId));
     }
     $done({ body: JSON.stringify(obj) });
-    return;
 }
 
+// 默认结束
 $done({});
