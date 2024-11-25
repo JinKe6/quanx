@@ -9,6 +9,7 @@ try {
     return;
 }
 
+// 开屏广告修改
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list/.test(url)) {
     if (obj.data && obj.data.list) {
         obj.data.list.forEach(item => {
@@ -21,6 +22,7 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/splash\/list/.test(url)) {
     return;
 }
 
+// Tab自定义
 if (/^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab/.test(url)) {
     if (obj.data) {
         obj.data.tab = [
@@ -48,6 +50,7 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/resource\/show\/tab/.test(url)) {
     return;
 }
 
+// 推荐去广告
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/feed/.test(url)) {
     if (obj.data && obj.data.items) {
         obj.data.items = obj.data.items.filter(item =>
@@ -60,6 +63,7 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/feed/.test(url)) {
     return;
 }
 
+// 番剧与影视Tab精简
 if (/^https?:\/\/api\.bilibili\.com\/pgc\/page\/(cinema|bangumi)/.test(url)) {
     if (obj.result && obj.result.modules) {
         obj.result.modules = obj.result.modules.filter(module =>
@@ -74,6 +78,7 @@ if (/^https?:\/\/api\.bilibili\.com\/pgc\/page\/(cinema|bangumi)/.test(url)) {
     return;
 }
 
+// 直播Tab精简
 if (/^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-interface\/v2\/index\/feed/.test(url)) {
     if (obj.data && obj.data.card_list) {
         obj.data.card_list = obj.data.card_list.filter(card => card.card_type !== "banner_v1");
@@ -82,6 +87,7 @@ if (/^https?:\/\/api\.live\.bilibili\.com\/xlive\/app-interface\/v2\/index\/feed
     return;
 }
 
+// iPad我的页面精简
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine\/ipad/.test(url)) {
     if (obj.data) {
         if (obj.data['ipad_more_sections']) {
@@ -96,6 +102,7 @@ if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine\/ipad/.test(url)) {
     return;
 }
 
+// iPhone我的页面精简
 if (/^https?:\/\/app\.bilibili\.com\/x\/v2\/account\/mine(?!\/ipad)/.test(url)) {
     if (obj.data) {
         obj.data.sections_v2 = obj.data.sections_v2.filter(section =>
